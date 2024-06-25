@@ -40,6 +40,6 @@ class CategoryController extends Controller
         $category = $this->repository->where('url', $url)->firstOrFail(); 
         $category->delete();
 
-        return response()->json(['message' => 'Deleted'], 205);
+        return response()->json(['message' => 'Deleted'], 204);
     }
 }
