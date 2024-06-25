@@ -36,7 +36,10 @@ class CategoryController extends Controller
 
         return (new CategoryResource($category))->additional(['message' => 'success']);
     }
-    public function destroy($id){
-        
+    public function destroy($url){
+        $category = $this->repository->where('url', $url)->firstOrFail(); 
+        $category->delete();
+
+        return response()->json(['message' => 'Deleted'], 205);
     }
 }
