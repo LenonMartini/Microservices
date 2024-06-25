@@ -26,11 +26,15 @@ class CategoryController extends Controller
        return (new CategoryResource($category));
 
     }
-    public function show($id){
-
+    public function show($url){
+        $category = $this->repository->where('url', $url)->firstOrFail(); 
+        return (new CategoryResource($category));
     }
-    public function update(Request $reques, $id){
+    public function update(StoreUpdateCategory $reques, $url){
+        $category = $this->repository->where('url', $url)->firstOrFail(); 
+        $category->update($reques->validated());
 
+        return (new CategoryResource($category))->additional(['message' => 'success']);
     }
     public function destroy($id){
         

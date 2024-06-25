@@ -20,11 +20,13 @@ class StoreUpdateCategory extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
+    {   
+        // Assumindo que o parâmetro da rota é 'category'
+        $url = $this->segment(2);
+
         return [
-            'title' => 'required|min:3|max:150|unique:categories',
+            'title' => "required|min:3|max:150|unique:categories,title,{$url},url",
             'description' => 'required|min:3|max:255',
-            
         ];
     }
 }
