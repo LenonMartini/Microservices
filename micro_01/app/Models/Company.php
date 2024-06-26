@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
     use HasFactory;
+    public $table = 'companies';
     protected $fillable = [
         'category_id',
         'uuid',
@@ -21,4 +22,20 @@ class Company extends Model
         'youtube'
         
     ];
+    public function category (){
+        return $this->belongsTo(Category::class);
+    }
+
+    public function getCompanies(string $filter = ''){
+        $companies = $this->with('category')
+                            ->where(function($query) use ($filter){
+                                if($filter != ''){
+                                    $query->where('name', 'like', '%'.$filter.'%');
+                                    $query->orWhere('email', '=', $filter);
+                                    $query->orWhere('phone', '=', $filter);
+                                }
+                            })
+                            ->paginate();
+        return $companies;
+    }
 }
